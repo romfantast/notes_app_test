@@ -59,7 +59,7 @@ function AddNotesForm({ setCategory, setTime }) {
         position: "relative",
       }}
     >
-      {notes?.length === 10 && (
+      {notes?.length >= 10 && (
         <Typography
           variant="h4"
           style={{
