@@ -13,7 +13,7 @@ import { useState } from "react";
 import moment from "moment";
 import { selectNotes } from "../../redux/notes/notes.selectors";
 
-function Note({ note, setOpenModal, setSelectedNote }) {
+function Note({ note, cat, setOpenModal, setSelectedNote }) {
   const dispatch = useDispatch();
   const notes = useSelector(selectNotes);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -22,6 +22,7 @@ function Note({ note, setOpenModal, setSelectedNote }) {
     setIsDeleting(true);
     dispatch(notesOperations.deleteNote(note.id)).then(() => {
       setIsDeleting(false);
+      dispatch(notesOperations.filter({ cat }));
     });
   };
 

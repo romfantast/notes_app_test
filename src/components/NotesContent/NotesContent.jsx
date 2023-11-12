@@ -4,9 +4,9 @@ import NotesList from "../NotesList/NotesList";
 import FilterByCat from "../FilterBlock/FilterByCat/FilterByCat";
 import FilterByDate from "../FilterBlock/FilterByDate/FilterByDate";
 
-function NotesContent({ cat, setCat, time, setTime }) {
+function NotesContent({ cat, setCat, time, setTime, setIsShowForm }) {
   return (
-    <Box style={{ marginTop: "80px" }}>
+    <Box>
       <Grid container direction="row" alignItems="center">
         <TextSnippetIcon color="primary" fontSize="medium" />
         <Typography style={{ marginLeft: "8px" }} variant="h5">
@@ -21,11 +21,17 @@ function NotesContent({ cat, setCat, time, setTime }) {
           }}
           item
         >
-          <FilterByCat cat={cat} setCat={setCat} filter={time} />
+          <FilterByCat
+            cat={cat}
+            setCat={setCat}
+            time={time}
+            setTime={setTime}
+            setIsShowForm={setIsShowForm}
+          />
           <FilterByDate cat={cat} time={time} setTime={setTime} />
         </Grid>
       </Grid>
-      <NotesList />
+      <NotesList cat={cat} />
     </Box>
   );
 }

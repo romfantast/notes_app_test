@@ -4,6 +4,12 @@ import { NavLink } from "react-router-dom";
 function Greeting() {
   return (
     <Box>
+      <Typography
+        variant="h4"
+        style={{ textAlign: "center", marginBottom: "16px" }}
+      >
+        Hello, my name is Roman Shulga
+      </Typography>
       <Typography variant="h5">
         From idea to next big thing, make it happen in NotifyMe
       </Typography>

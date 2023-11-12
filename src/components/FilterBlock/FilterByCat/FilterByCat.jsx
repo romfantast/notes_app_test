@@ -3,18 +3,44 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import notesOperations from "../../../redux/notes/notes-operations";
+import { selectNotes } from "../../../redux/notes/notes.selectors";
+import { resetMaxNotes, setMaxNotes } from "../../../redux/notes/notes-slice";
 
-export default function FilterByCat({ cat, setCat, filter }) {
+export default function FilterByCat({
+  cat,
+  setCat,
+  time,
+  setTime,
+  setIsShowForm,
+}) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
+  const notes = useSelector(selectNotes);
 
   const handleChange = (event) => {
+    let obj = {};
+    if (event.target.value === "") {
+      setIsShowForm(true);
+      setTime("");
+      obj.time = "";
+    } else {
+      setIsShowForm(false);
+      obj.time = time;
+    }
+
     setCat(event.target.value);
-    const obj = { cat: event.target.value, time: filter };
-    console.log(obj);
-    dispatch(notesOperations.filter(obj));
+    obj.cat = event.target.value;
+
+    if (notes?.length >= 10) {
+      dispatch(setMaxNotes());
+    }
+    dispatch(notesOperations.filter(obj)).then((res) => {
+      if (res?.meta?.arg?.cat === "" && res?.payload?.length < 10) {
+        dispatch(resetMaxNotes());
+      }
+    });
   };
 
   const handleClose = () => {

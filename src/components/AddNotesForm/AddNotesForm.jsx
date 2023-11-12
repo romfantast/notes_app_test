@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import notesOperations from "../../redux/notes/notes-operations";
 import {
   selectIsLoadingAdd,
+  selectIsMaxNotes,
   selectNotes,
 } from "../../redux/notes/notes.selectors";
 import { useForm } from "react-hook-form";
@@ -23,6 +24,7 @@ import { useState } from "react";
 function AddNotesForm({ setCategory, setTime }) {
   const dispatch = useDispatch();
   const notes = useSelector(selectNotes);
+  const isMaxNotes = useSelector(selectIsMaxNotes);
   const [cat, setCat] = useState("");
   const [isCatError, setIsCatError] = useState(false);
 
@@ -57,9 +59,10 @@ function AddNotesForm({ setCategory, setTime }) {
     <Container
       style={{
         position: "relative",
+        marginBottom: "50px",
       }}
     >
-      {notes?.length >= 10 && (
+      {(notes?.length >= 10 || isMaxNotes) && (
         <Typography
           variant="h4"
           style={{
@@ -69,8 +72,9 @@ function AddNotesForm({ setCategory, setTime }) {
             width: "100%",
           }}
         >
-          Maximum of notes <span style={{ color: "#f44336" }}>(10)</span>,
-          please delete note to create a new one
+          It's a maximum of your notes{" "}
+          <span style={{ color: "#f44336" }}>(10)</span>, please delete a note
+          to create the new one
         </Typography>
       )}
       <Box
@@ -82,10 +86,10 @@ function AddNotesForm({ setCategory, setTime }) {
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
         style={{
-          filter: notes?.length >= 10 ? "blur(2px)" : "none",
+          filter: notes?.length >= 10 || isMaxNotes ? "blur(2px)" : "none",
           position: "relative",
-          pointerEvents: notes?.length === 10 ? "none" : "auto",
-          userSelect: notes?.length === 10 ? "none" : "auto",
+          pointerEvents: notes?.length >= 10 || isMaxNotes ? "none" : "auto",
+          userSelect: notes?.length >= 10 || isMaxNotes ? "none" : "auto",
         }}
       >
         <Typography variant="h5">Add a Note</Typography>

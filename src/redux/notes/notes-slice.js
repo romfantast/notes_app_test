@@ -6,6 +6,7 @@ import notesOperations from "./notes-operations";
 
 const initialState = {
   notes: null,
+  isMaxNotes: false,
   isLoading: false,
   isLoadingAdd: false,
   isLoadingDelete: false,
@@ -17,6 +18,14 @@ const initialState = {
 const notesSlice = createSlice({
   name: "notes",
   initialState,
+  reducers: {
+    setMaxNotes: (state) => {
+      state.isMaxNotes = true;
+    },
+    resetMaxNotes: (state) => {
+      state.isMaxNotes = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(notesOperations.getNotes.pending, (state, _) => {
@@ -105,3 +114,5 @@ export const notesReducer = persistReducer(
   persistConfigNotes,
   notesSlice.reducer
 );
+
+export const { setMaxNotes, resetMaxNotes } = notesSlice.actions;

@@ -13,7 +13,6 @@ export default function FilterByCat({ cat, time, setTime }) {
   const handleChange = (event) => {
     setTime(event.target.value);
     const obj = { cat, time: event.target.value };
-    console.log(obj);
     dispatch(notesOperations.filter(obj));
   };
 

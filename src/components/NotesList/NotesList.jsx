@@ -9,8 +9,9 @@ import {
 } from "../../redux/notes/notes.selectors";
 import { useEffect, useState } from "react";
 import ModalEdit from "../ModalEdit/ModalEdit";
+import { resetMaxNotes } from "../../redux/notes/notes-slice";
 
-function NotesList() {
+function NotesList({ cat }) {
   const [open, setOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState({});
   const notes = useSelector(selectNotes);
@@ -18,7 +19,11 @@ function NotesList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(notesOperations.getNotes());
+    dispatch(notesOperations.getNotes()).then((res) => {
+      if (res?.payload?.length < 10) {
+        dispatch(resetMaxNotes());
+      }
+    });
   }, [dispatch]);
 
   return (
@@ -41,6 +46,7 @@ function NotesList() {
           [...notes].map((note) => (
             <Note
               key={note.id}
+              cat={cat}
               note={note}
               setOpenModal={setOpen}
               setSelectedNote={setSelectedNote}

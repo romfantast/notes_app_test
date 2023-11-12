@@ -18,7 +18,9 @@ const editNote = async (note) => {
 
 const filter = async (obj) => {
   return await axios.get(
-    `/notes?category=${obj.cat || ""}&sortby=createdAt&order=${obj.time || ""}`
+    `/notes?category=${obj.cat || ""}&sortby=createdAt&order=${
+      obj.time || "desc"
+    }`
   );
 };
 
