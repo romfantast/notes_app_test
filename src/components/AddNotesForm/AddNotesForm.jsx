@@ -50,6 +50,7 @@ function AddNotesForm({ setCategory, setTime }) {
       resetField("title");
       resetField("description");
       setCategory("");
+      setCat("");
       setTime("");
       dispatch(notesOperations.getNotes());
     });

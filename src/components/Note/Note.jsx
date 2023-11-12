@@ -12,6 +12,7 @@ import notesOperations from "../../redux/notes/notes-operations";
 import { useState } from "react";
 import moment from "moment";
 import { selectNotes } from "../../redux/notes/notes.selectors";
+import { resetMaxNotes } from "../../redux/notes/notes-slice";
 
 function Note({ note, cat, setOpenModal, setSelectedNote }) {
   const dispatch = useDispatch();
@@ -22,7 +23,12 @@ function Note({ note, cat, setOpenModal, setSelectedNote }) {
     setIsDeleting(true);
     dispatch(notesOperations.deleteNote(note.id)).then(() => {
       setIsDeleting(false);
-      dispatch(notesOperations.filter({ cat }));
+      console.log(1123);
+      dispatch(notesOperations.filter({ cat })).then((res) => {
+        if (res?.payload?.length < 10) {
+          dispatch(resetMaxNotes());
+        }
+      });
     });
   };
 
